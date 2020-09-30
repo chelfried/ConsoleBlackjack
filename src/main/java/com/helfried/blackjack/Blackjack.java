@@ -15,9 +15,7 @@ public class Blackjack {
 
     public static void main(String[] args) {
 
-        new Player("Player", 10000);
-
-        Game.start();
+        Menu.loadMenu();
 
     }
 
