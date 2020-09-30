@@ -1,11 +1,11 @@
 <h1>Technical TODO</h1>
 <ul>
-<li>add .gitignore</li>
-<li>remove unwanted files from git (.idea, .iml)</li>
-<li>remove lib folder, use maven repository instead</li>
-<li>use maven as a build tool</li>
-<li>create packages using maven convention</li>
-<li>move blackjack.sql to resources</li>
+<li>add .gitignore ✓</li>
+<li>remove unwanted files from git (.idea, .iml) ✓</li>
+<li>remove lib folder, use maven repository instead ✓</li>
+<li>use maven as a build tool ✓</li>
+<li>create packages using maven convention ✓</li>
+<li>move blackjack.sql to resources ✓</li>
 <li>load jdbc properties from yml files</li>
 <li>load players from file</li>
 <li>setup log4j2 for logging (log in console and in file)</li>
@@ -27,10 +27,10 @@ delete</li>
 <li>
 <p>git</p>
 <ul>
-<li>clone project</li>
-<li>create remote repository in github</li>
-<li>push to remote repository</li>
-<li>update (fetch &amp; pull)</li>
+<li>clone project ✓</li>
+<li>create remote repository in github ✓</li>
+<li>push to remote repository ✓</li>
+<li>update (fetch &amp; pull) ✓</li>
 </ul>
 </li>
 <li>
