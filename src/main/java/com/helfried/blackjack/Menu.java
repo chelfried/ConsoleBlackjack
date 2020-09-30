@@ -1,5 +1,7 @@
 package com.helfried.blackjack;
 
+import com.helfried.blackjack.types.PlayerDao;
+
 import java.util.Scanner;
 
 public class Menu {
@@ -86,7 +88,7 @@ public class Menu {
                 System.out.print(".");
                 wait(500);
                 System.out.print(".\n");
-//                PlayerDao.createNewPlayer(input);
+                Blackjack.Player.id = PlayerDao.createNewPlayer(input);
                 Blackjack.Game.start();
                 break;
             }
