@@ -27,10 +27,10 @@ delete</li>
 <li>
 <p>git</p>
 <ul>
-<li>clone project</li>
-<li>create remote repository in github</li>
-<li>push to remote repository</li>
-<li>update (fetch &amp; pull)</li>
+<li>clone project ✓</li>
+<li>create remote repository in github ✓</li>
+<li>push to remote repository ✓</li>
+<li>update (fetch &amp; pull) ✓</li>
 </ul>
 </li>
 <li>
