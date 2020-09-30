@@ -80,15 +80,9 @@ public class Menu {
                 System.out.print("\nYou will start with \u001B[33m10000\033[0m chips. ");
                 wait(3000);
                 System.out.print("Good luck!\n");
-                wait(2000);
-                System.out.print("\nGet ready for 1st round");
-                wait(500);
-                System.out.print(".");
-                wait(500);
-                System.out.print(".");
-                wait(500);
-                System.out.print(".\n");
+                wait(3000);
                 Blackjack.Player.id = PlayerDao.createNewPlayer(input);
+                Blackjack.Player.playerChips = 10000;
                 Blackjack.Game.start();
                 break;
             }

@@ -1,5 +1,7 @@
 package com.helfried.blackjack.types;
 
+import com.helfried.blackjack.Blackjack;
+
 import java.sql.*;
 
 public class PlayerDao {
@@ -38,11 +40,11 @@ public class PlayerDao {
         return id;
     }
 
-    public static void loadPlayer(int choice) {
+    public static void listPlayers() {
 
     }
 
-    public static void listPlayers() {
+    public static void loadPlayer(int choice) {
 
     }
 
