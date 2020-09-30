@@ -30,9 +30,11 @@ public class Player {
     public Player() {
     }
 
-    public Player(String playerName, int chips) {
+    public Player(int id, String playerName, int chips, int roundsPlayed) {
+        this.id = id;
         this.playerName = playerName;
         this.chips = chips;
+        this.roundsPlayed = roundsPlayed;
     }
 
     public int getId() {

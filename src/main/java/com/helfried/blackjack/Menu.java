@@ -1,7 +1,8 @@
 package com.helfried.blackjack;
 
+import com.helfried.blackjack.types.Player;
 import com.helfried.blackjack.types.PlayerDao;
-
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -13,36 +14,36 @@ public class Menu {
     }
 
     public static void menu() {
-        System.out.print("\nWelcome to\n");
-        wait(1000);
-        System.out.print("\033[1;91mB\033[0m");
-        wait(300);
-        System.out.print("\033[1;92m L\033[0m");
-        wait(300);
-        System.out.print("\033[1;93m A\033[0m");
-        wait(300);
-        System.out.print("\033[1;94m C\033[0m");
-        wait(300);
-        System.out.print("\033[1;95m K\033[0m");
-        wait(300);
-        System.out.print("\033[1;96m J\033[0m");
-        wait(300);
-        System.out.print("\033[1;91m A\033[0m");
-        wait(300);
-        System.out.print("\033[1;92m C\033[0m");
-        wait(300);
-        System.out.print("\033[1;93m K\033[0m");
-        System.out.print("\n\n");
-        wait(1000);
-        System.out.println("Table Rules\n♦ Blackjack pays 2 to 1\n♦ Dealer hits on soft 17\n♦ Splitting allowed once per round\n♦ Deck is reshuffled after each round\n");
-        wait(1000);
+//        System.out.print("\nWelcome to\n");
+//        wait(1000);
+//        System.out.print("\033[1;91mB\033[0m");
+//        wait(300);
+//        System.out.print("\033[1;92m L\033[0m");
+//        wait(300);
+//        System.out.print("\033[1;93m A\033[0m");
+//        wait(300);
+//        System.out.print("\033[1;94m C\033[0m");
+//        wait(300);
+//        System.out.print("\033[1;95m K\033[0m");
+//        wait(300);
+//        System.out.print("\033[1;96m J\033[0m");
+//        wait(300);
+//        System.out.print("\033[1;91m A\033[0m");
+//        wait(300);
+//        System.out.print("\033[1;92m C\033[0m");
+//        wait(300);
+//        System.out.print("\033[1;93m K\033[0m");
+//        System.out.print("\n\n");
+//        wait(1000);
+//        System.out.println("Table Rules\n♦ Blackjack pays 2 to 1\n♦ Dealer hits on soft 17\n♦ Splitting allowed once per round\n♦ Deck is reshuffled after each round\n");
+//        wait(1000);
         System.out.println("[N] NEW GAME");
         System.out.println("[L] LOAD GAME\n");
-        Scanner keyboard = new Scanner(System.in);
+        Scanner input1 = new Scanner(System.in);
         while (true) {
             System.out.print("Choice: ");
-            String input = keyboard.nextLine();
-            if (input.equals("n") || input.equals("N")) {
+            String choice = input1.nextLine();
+            if (choice.equals("n") || choice.equals("N")) {
                 System.out.print("\nStarting new game");
                 wait(500);
                 System.out.print(".");
@@ -54,10 +55,32 @@ public class Menu {
                 startNewGame();
                 break;
             }
-            if (input.equals("l") || input.equals("L")) {
-                System.out.println("\nPlease pick a player you want to load.\n");
-                System.out.println("*****************************************************\n");
-//                PlayerDao.listPlayers();
+            if (choice.equals("l") || choice.equals("L")) {
+                System.out.println("");
+                List<Player> players = PlayerDao.listPlayers();
+                for(Player player : players){
+                    System.out.printf("[%d] %-15s %d chips, %d rounds played\n",
+                            player.getId(), player.getPlayerName(), player.getChips(), player.getRoundsPlayed());
+                }
+                Scanner input2 = new Scanner(System.in);
+                int chosenID;
+                while (true) {
+                    System.out.print("\nLoad player number: ");
+                    try {
+                        chosenID = input2.nextInt();
+                        if (chosenID >= players.get(0).getId() && chosenID <= players.get(players.size() - 1).getId()) {
+                            break;
+                        } else {
+                            System.out.print("Please choose a valid number.\n");
+                        }
+                    } catch (java.util.InputMismatchException e) {
+                        input2.nextInt();
+                        System.out.print("Please choose a valid number.\n");
+                    }
+                }
+                Blackjack.Player.name = players.get(chosenID - 1).getPlayerName();
+                Blackjack.Player.playerChips = players.get(chosenID - 1).getChips();
+                System.out.printf("\nLoading player %s...\n", Blackjack.Player.name);
                 wait(2000);
                 Blackjack.Game.start();
                 break;

@@ -3,6 +3,8 @@ package com.helfried.blackjack.types;
 import com.helfried.blackjack.Blackjack;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerDao {
 
@@ -40,9 +42,31 @@ public class PlayerDao {
         return id;
     }
 
-    public static void listPlayers() {
+    public static List<Player> listPlayers() {
+        List<Player> savedPlayers = new ArrayList<>();
+        String sql = "SELECT id, player_name, chips, rounds_played FROM player";
+        try {
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("player_name");
+                int chips = resultSet.getInt("chips");
+                int roundsPlayed = resultSet.getInt("rounds_played");
+                Player player = new Player(id, name, chips, roundsPlayed);
+                savedPlayers.add(player);
+            }
+
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return savedPlayers;
     }
+
 
     public static void loadPlayer(int choice) {
 
