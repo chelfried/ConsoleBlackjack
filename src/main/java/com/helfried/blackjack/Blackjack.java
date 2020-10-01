@@ -1,7 +1,6 @@
 package com.helfried.blackjack;
 
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -83,163 +82,21 @@ public class Blackjack {
         }
 
         public static void hint() {
-            String hits = "[H] Hit";
-            String stands = "[S] Stand";
-            String doubles = "[D] Double";
-            String splits = "[P] Split";
-            alreadyHit = false;
-            wait(1000);
-            System.out.print("\033[0;34mAccording to basic strategy \033[4;34m");
+            System.out.print("\033[0;34mAccording to basic strategy you should \033[4;34m");
             if (Player.playingSplitHand == 0 && Table.playerHand.size() == 2 && (handValue(Table.playerHand) == Table.playerHand.get(0).getValue() * 2)) {
-                if (Table.playerHand.get(0).getValue() == 11) {
-                    System.out.print(splits);
-                } else if (Table.playerHand.get(0).getValue() == 9) {
-                    if (Table.dealerHand.get(0).getValue() <= 6 || (Table.dealerHand.get(0).getValue() >= 8 && Table.dealerHand.get(0).getValue() <= 9)) {
-                        System.out.print(splits);
-                    }
-                } else if (Table.playerHand.get(0).getValue() == 8) {
-                    System.out.print(splits);
-                } else if (Table.playerHand.get(0).getValue() == 7) {
-                    if (Table.dealerHand.get(0).getValue() <= 7) {
-                        System.out.print(splits);
-                    }
-                } else if (Table.playerHand.get(0).getValue() == 6) {
-                    if (Table.dealerHand.get(0).getValue() <= 6) {
-                        System.out.print(splits);
-                    }
-                } else if (Table.playerHand.get(0).getValue() == 4) {
-                    if (Table.dealerHand.get(0).getValue() >= 5 && Table.dealerHand.get(0).getValue() <= 6) {
-                        System.out.print(splits);
-                    }
-                } else if (Table.playerHand.get(0).getValue() == 3 || Table.playerHand.get(0).getValue() == 2) {
-                    if (Table.dealerHand.get(0).getValue() <= 7) {
-                        System.out.print(splits);
-                    }
-                }
+                String hint = BasicStrategyTable.splitHand[Table.playerHand.get(0).getValue() - 2][Table.dealerHand.get(0).getValue() - 2];
+                System.out.printf("\033[0;34m%s.\n\033[4;34m", hint);
             }
-            if (holdsA(Table.playerHand)) {
-                if (handValue(Table.playerHand) >= 20 && handValue(Table.playerHand) <= 21) {
-                    System.out.print(stands);
-                } else if (handValue(Table.playerHand) == 19) {
-                    if (Table.dealerHand.get(0).getValue() == 6) {
-                        if (alreadyHit) {
-                            System.out.print(stands);
-                        } else {
-                            System.out.print(doubles);
-                        }
-                    } else {
-                        System.out.print(stands);
-                    }
-                } else if (handValue(Table.playerHand) == 18) {
-                    if (Table.dealerHand.get(0).getValue() <= 6) {
-                        if (alreadyHit) {
-                            System.out.print(stands);
-                        } else {
-                            System.out.print(doubles);
-                        }
-                    } else if (Table.dealerHand.get(0).getValue() >= 7 && Table.dealerHand.get(0).getValue() <= 8) {
-                        System.out.print(stands);
-                    } else if (Table.dealerHand.get(0).getValue() >= 9) {
-                        System.out.print(hits);
-                    }
-                } else if (handValue(Table.playerHand) == 17) {
-                    if (Table.dealerHand.get(0).getValue() == 2) {
-                        System.out.print(hits);
-                    } else if (Table.dealerHand.get(0).getValue() >= 3 && Table.dealerHand.get(0).getValue() <= 6) {
-                        if (alreadyHit) {
-                            System.out.print(hits);
-                        } else {
-                            System.out.print(doubles);
-                        }
-                    } else if (Table.dealerHand.get(0).getValue() >= 7) {
-                        System.out.print(hits);
-                    }
-                } else if (handValue(Table.playerHand) == 15 || handValue(Table.playerHand) == 16) {
-                    if (Table.dealerHand.get(0).getValue() <= 3) {
-                        System.out.print(hits);
-                    } else if (Table.dealerHand.get(0).getValue() >= 4 && Table.dealerHand.get(0).getValue() <= 6) {
-                        if (alreadyHit) {
-                            System.out.print(hits);
-                        } else {
-                            System.out.print(doubles);
-                        }
-                    } else if (Table.dealerHand.get(0).getValue() >= 7) {
-                        System.out.print(hits);
-                    }
-                } else if (handValue(Table.playerHand) == 13 || handValue(Table.playerHand) == 14) {
-                    if (Table.dealerHand.get(0).getValue() <= 4) {
-                        System.out.print(hits);
-                    } else if (Table.dealerHand.get(0).getValue() >= 5 && Table.dealerHand.get(0).getValue() <= 6) {
-                        if (alreadyHit) {
-                            System.out.print(hits);
-                        } else {
-                            System.out.print(doubles);
-                        }
-                    } else if (Table.dealerHand.get(0).getValue() >= 7) {
-                        System.out.print(hits);
-                    }
-                } else if (handValue(Table.playerHand) == 12) {
-                    if (Table.dealerHand.get(0).getValue() <= 6) {
-                        if (alreadyHit) {
-                            System.out.print(hits);
-                        } else {
-                            System.out.print(doubles);
-                        }
-                    } else {
-                        System.out.print(hits);
-                    }
-                }
-            } else {
-                if (handValue(Table.playerHand) >= 17 && handValue(Table.playerHand) <= 21) {
-                    System.out.print(stands);
-                } else if (handValue(Table.playerHand) >= 13 && handValue(Table.playerHand) <= 16) {
-                    if (Table.dealerHand.get(0).getValue() <= 6) {
-                        System.out.print(stands);
-                    } else {
-                        System.out.print(hits);
-                    }
-                } else if (handValue(Table.playerHand) == 12) {
-                    if (Table.dealerHand.get(0).getValue() <= 3) {
-                        System.out.print(hits);
-                    } else if (Table.dealerHand.get(0).getValue() >= 4 && Table.dealerHand.get(0).getValue() <= 6) {
-                        System.out.print(stands);
-                    } else {
-                        System.out.print(hits);
-                    }
-                } else if (handValue(Table.playerHand) == 11) {
-                    if (alreadyHit) {
-                        System.out.print(hits);
-                    } else {
-                        System.out.print(doubles);
-                    }
-                } else if (handValue(Table.playerHand) == 10) {
-                    if (Table.dealerHand.get(0).getValue() <= 9) {
-                        if (alreadyHit) {
-                            System.out.print(hits);
-                        } else {
-                            System.out.print(doubles);
-                        }
-                    } else {
-                        System.out.print(hits);
-                    }
-                } else if (handValue(Table.playerHand) == 9) {
-                    if (Table.dealerHand.get(0).getValue() == 2) {
-                        System.out.print(hits);
-                    } else if (Table.dealerHand.get(0).getValue() >= 3 && Table.dealerHand.get(0).getValue() <= 6) {
-                        if (alreadyHit) {
-                            System.out.print(hits);
-                        } else {
-                            System.out.print(doubles);
-                        }
-                    } else {
-                        System.out.print(hits);
-                    }
-                } else if (handValue(Table.playerHand) >= 4 && handValue(Table.playerHand) <= 8) {
-                    System.out.print(hits);
-                }
+            else if (holdsA(Table.playerHand)) {
+                String hint = BasicStrategyTable.softHand[handValue(Table.playerHand) - 13][Table.dealerHand.get(0).getValue() - 2];
+                System.out.printf("\033[0;34m%s.\n\033[4;34m", hint);
             }
-            System.out.print("\033[0m\033[0;34m is the optimal move.\033[0m");
+            else {
+                String hint = BasicStrategyTable.hardHand[handValue(Table.playerHand) - 4][Table.dealerHand.get(0).getValue() - 2];
+                System.out.printf("\033[0;34m%s.\033[0m\n", hint);
+            }
         }
+
     }
 
     public static class Dealer extends Actions {
@@ -680,11 +537,11 @@ public class Blackjack {
 
     public static class Table {
 
-        static List<Pair<String, Integer>> dealerHand = new ArrayList<>();
-        static List<Pair<String, Integer>> playerHand = new ArrayList<>();
-        static List<Pair<String, Integer>> splitPlayerHand1 = new ArrayList<>();
-        static List<Pair<String, Integer>> splitPlayerHand2 = new ArrayList<>();
-        static List<Pair<String, Integer>> deck = new ArrayList<>();
+        static final List<Pair<String, Integer>> dealerHand = new ArrayList<>();
+        static final List<Pair<String, Integer>> playerHand = new ArrayList<>();
+        static final List<Pair<String, Integer>> splitPlayerHand1 = new ArrayList<>();
+        static final List<Pair<String, Integer>> splitPlayerHand2 = new ArrayList<>();
+        static final List<Pair<String, Integer>> deck = new ArrayList<>();
         static int pot;
         static int splitPot;
 

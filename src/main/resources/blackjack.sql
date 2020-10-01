@@ -1,16 +1,13 @@
-CREATE DATABASE  IF NOT EXISTS `blackjack`;
-USE `blackjack`;
+CREATE DATABASE  IF NOT EXISTS `motherdatabase`;
+USE `motherdatabase`;
 
-DROP TABLE IF EXISTS `player`;
+DROP TABLE IF EXISTS `mother`;
 
-CREATE TABLE `player` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `player_name` varchar(15),
-  `chips` int DEFAULT 10000,
-  `rounds_played` int DEFAULT 0,
-  `right_moves` int DEFAULT 0,
-  `wrong_moves` int DEFAULT 0,
-  `remaining_hints` int DEFAULT 5,
+CREATE TABLE `mother` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45),
+  `age` int,
+  `address` varchar(45),
   PRIMARY KEY (`id`)
 );
 
