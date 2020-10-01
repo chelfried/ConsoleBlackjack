@@ -1,10 +1,13 @@
 package com.helfried.blackjack;
 
 import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.helfried.blackjack.Blackjack.Actions.placeBet;
 
 public class Blackjack {
 
@@ -86,12 +89,10 @@ public class Blackjack {
             if (Player.playingSplitHand == 0 && Table.playerHand.size() == 2 && (handValue(Table.playerHand) == Table.playerHand.get(0).getValue() * 2)) {
                 String hint = BasicStrategyTable.splitHand[Table.playerHand.get(0).getValue() - 2][Table.dealerHand.get(0).getValue() - 2];
                 System.out.printf("\033[0;34m%s.\n\033[4;34m", hint);
-            }
-            else if (holdsA(Table.playerHand)) {
+            } else if (holdsA(Table.playerHand)) {
                 String hint = BasicStrategyTable.softHand[handValue(Table.playerHand) - 13][Table.dealerHand.get(0).getValue() - 2];
                 System.out.printf("\033[0;34m%s.\n\033[4;34m", hint);
-            }
-            else {
+            } else {
                 String hint = BasicStrategyTable.hardHand[handValue(Table.playerHand) - 4][Table.dealerHand.get(0).getValue() - 2];
                 System.out.printf("\033[0;34m%s.\033[0m\n", hint);
             }
@@ -133,6 +134,10 @@ public class Blackjack {
     }
 
     public static class Actions {
+
+        private Actions() {
+            throw new IllegalStateException("Utility class");
+        }
 
         public static void dealNewHands() {
             System.out.print("New hands are dealt!\n");
@@ -236,7 +241,7 @@ public class Blackjack {
 
         public static void printAction(boolean player, Boolean colored, String action) {
             wait(500);
-            if (colored) {
+            if (Boolean.TRUE.equals(colored)) {
                 if (player) {
                     System.out.printf("\u001B[35m%s\033[0m ", Player.name);
                 }
@@ -535,7 +540,11 @@ public class Blackjack {
 
     }
 
-    public static class Table {
+    static class Table {
+
+        private Table() {
+            throw new IllegalStateException("Utility class");
+        }
 
         static final List<Pair<String, Integer>> dealerHand = new ArrayList<>();
         static final List<Pair<String, Integer>> playerHand = new ArrayList<>();
@@ -608,7 +617,7 @@ public class Blackjack {
                 roundNo++;
                 System.out.printf("\n•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••• ROUND %d •••\n", roundNo);
                 Table.initializeNewDeck();
-                Player.placeBet();
+                placeBet();
                 Dealer.dealNewHands();
             }
         }
