@@ -57,7 +57,7 @@ delete</li>
 <li>
 <p>jdbc</p>
 <ul>
-<li>prepared statements</li>
+<li>prepared statements ✓</li>
 </ul>
 </li>
 <li>
