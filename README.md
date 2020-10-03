@@ -37,13 +37,13 @@ delete</li>
 <p>maven</p>
 <ul>
 <li>maven dependency convention</li>
-<li>maven folder structure</li>
+<li>maven folder structure ✓</li>
 </ul>
 </li>
 <li>
 <p>java core</p>
 <ul>
-<li>constructors <a href="https://beginnersbook.com/2013/03/constructors-in-java/" rel="nofollow">https://beginnersbook.com/2013/03/constructors-in-java/</a></li>
+<li>constructors <a href="https://beginnersbook.com/2013/03/constructors-in-java/" rel="nofollow">https://beginnersbook.com/2013/03/constructors-in-java/</a> ✓</li>
 </ul>
 </li>
 <li>
