@@ -1,5 +1,6 @@
 package com.helfried.blackjack.types;
 
+import com.helfried.blackjack.Blackjack;
 import com.helfried.blackjack.config.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -40,7 +41,6 @@ public class PlayerDao {
 
     public static List<Player> listPlayers() {
         List<Player> savedPlayers = new ArrayList<>();
-
         try (Session session = getSession()) {
             String queryPlayers = "FROM Player p";
             Query<Player> query = session.createQuery(queryPlayers);
@@ -51,8 +51,22 @@ public class PlayerDao {
     }
 
 
-    public static void updatePlayerStats() {
-
+    public static void updatePlayerStats(int id, int chips, int roundsPlayed, int remainingHints) {
+        Transaction transaction = null;
+        try (Session session = getSession()) {
+            Player playerToUpdate = session.find(Player.class, id);
+            transaction = session.beginTransaction();
+            playerToUpdate.setChips(chips);
+            playerToUpdate.setRoundsPlayed(playerToUpdate.getRoundsPlayed() + roundsPlayed);
+            playerToUpdate.setRemainingHints(remainingHints);
+            session.update(playerToUpdate);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            System.out.println(e.getMessage());
+        }
     }
 
     private static Session getSession() {
