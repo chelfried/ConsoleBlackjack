@@ -1,3 +1,5 @@
+Put the ✓ symbol before each completed task.
+
 # Technical TODO
 
 - ✓ add .gitignore
@@ -32,10 +34,10 @@
     
 - maven
     - maven dependency convention
-    - maven folder structure
+    - ✓ maven folder structure
     
 - java core
-    - constructors https://beginnersbook.com/2013/03/constructors-in-java/
+    - ✓ constructors https://beginnersbook.com/2013/03/constructors-in-java/
 
 - utils
     - read from text file
