@@ -40,12 +40,11 @@ public class PlayerDao {
     }
 
     public static List<Player> listPlayers() {
-        List<Player> savedPlayers = new ArrayList<>();
+        List<Player> savedPlayers;
         try (Session session = getSession()) {
             String queryPlayers = "FROM Player p";
             Query<Player> query = session.createQuery(queryPlayers);
-            List<Player> foundPlayers = query.getResultList();
-            savedPlayers.addAll(foundPlayers);
+            savedPlayers = query.getResultList();
         }
         return savedPlayers;
     }

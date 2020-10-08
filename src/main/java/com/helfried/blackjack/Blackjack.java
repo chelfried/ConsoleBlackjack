@@ -119,7 +119,7 @@ public class Blackjack {
                 } else if (handValue(Table.dealerHand) > 21 && holdsA(Table.dealerHand)) {
                     changeValueOfA(Table.dealerHand);
                 } else if (handValue(Table.dealerHand) <= 21) {
-                    printAction(false, true, "Dealer Stands!");
+                    printAction(false, true, "Dealer stands!");
                     stood = true;
                     endRound();
                     break;
@@ -147,8 +147,7 @@ public class Blackjack {
             System.out.print("New hands are dealt!\n");
             wait(1500);
             for (int i = 0; i < 2; i++) {
-//                drawCard(Table.playerHand);
-                Table.playerHand.add(new Pair<>("A♠", 11));
+                drawCard(Table.playerHand);
                 drawCard(Table.dealerHand);
             }
             printTable();
