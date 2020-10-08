@@ -48,13 +48,12 @@ public class Menu {
                 wait(1000);
                 startNewGame();
                 break;
-            }
-            if (choice.equals("l") || choice.equals("L")) {
-                System.out.println("");
+            } else if (choice.equals("l") || choice.equals("L")) {
+                System.out.println();
                 List<Player> players = PlayerDao.listPlayers();
                 for(Player player : players){
-                    System.out.printf("[%d] %-15s %d chips, %d rounds played\n",
-                            player.getId(), player.getPlayerName(), player.getChips(), player.getRoundsPlayed());
+                    System.out.printf("[%d] %-15s %d chips, %d rounds played, %d remaining hints\n",
+                            player.getId(), player.getPlayerName(), player.getChips(), player.getRoundsPlayed(), player.getRemainingHints());
                 }
                 Scanner input2 = new Scanner(System.in);
                 int chosenID;
@@ -72,8 +71,10 @@ public class Menu {
                         System.out.print("Please choose a valid number.\n");
                     }
                 }
+                Blackjack.Player.id = players.get(chosenID - 1).getId();
                 Blackjack.Player.name = players.get(chosenID - 1).getPlayerName();
                 Blackjack.Player.playerChips = players.get(chosenID - 1).getChips();
+                Blackjack.Player.remainingHints = players.get(chosenID - 1).getRemainingHints();
                 System.out.printf("\nLoading player %s...\n", Blackjack.Player.name);
                 wait(2000);
                 Blackjack.Game.start();
@@ -99,7 +100,9 @@ public class Menu {
                 System.out.print("Good luck!\n");
                 wait(3000);
                 Blackjack.Player.id = PlayerDao.createNewPlayer(input);
+                Blackjack.Player.name = input;
                 Blackjack.Player.playerChips = 10000;
+                Blackjack.Player.remainingHints = 5;
                 Blackjack.Game.start();
                 break;
             }

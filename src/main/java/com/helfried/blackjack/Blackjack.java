@@ -1,5 +1,6 @@
 package com.helfried.blackjack;
 
+import com.helfried.blackjack.types.PlayerDao;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -11,9 +12,7 @@ import static com.helfried.blackjack.Blackjack.Actions.placeBet;
 
 public class Blackjack {
 
-    //TODO disallow double and split when not enough chips
     //TODO implement surrender functionality
-    //TODO implement end game functionality before placing a bet
 
     public static void main(String[] args) {
 
@@ -28,6 +27,7 @@ public class Blackjack {
         static int playerChips;
         static int playingSplitHand;
         static boolean alreadyHit;
+        static int remainingHints;
 
         public Player(String name, int playerChips) {
             Player.name = name;
@@ -36,14 +36,17 @@ public class Blackjack {
 
         public static void playerMove() {
             System.out.print("[H] Hit   ");
-            if (!alreadyHit) {
+
+            if (!alreadyHit && ((Player.playingSplitHand <= 1 && Player.playerChips >= Table.pot) || (Player.playingSplitHand == 2 && Player.playerChips >= Table.splitPot))) {
                 System.out.print("[D] Double   ");
             }
             if (Player.playingSplitHand == 0 && Table.playerHand.size() == 2 && (handValue(Table.playerHand) == Table.playerHand.get(0).getValue() * 2 || (handValue(Table.playerHand) == 12 && holdsA(Table.playerHand)))) {
                 System.out.print("[P] Split   ");
             }
             System.out.print("[S] Stand      ");
-            System.out.print("[I] Hint");
+            if (remainingHints > 0) {
+                System.out.printf("[I] Hint (%d)", remainingHints);
+            }
             Scanner keyboard = new Scanner(System.in);
             while (true) {
                 if (Player.playingSplitHand == 1) {
@@ -59,7 +62,7 @@ public class Blackjack {
                     hits(Table.playerHand);
                     break;
                 }
-                if ((input.equals("d") || input.equals("D")) && !alreadyHit) {
+                if ((input.equals("d") || input.equals("D")) && !alreadyHit && ((Player.playingSplitHand <= 1 && Player.playerChips >= Table.pot) || (Player.playingSplitHand == 2 && Player.playerChips >= Table.splitPot))) {
                     System.out.println();
                     doubles();
                     if (handValue(Table.playerHand) > 21) {
@@ -67,7 +70,7 @@ public class Blackjack {
                     }
                     break;
                 }
-                if ((input.equals("p") || input.equals("P")) && Player.playingSplitHand == 0 && Table.playerHand.size() == 2 && (handValue(Table.playerHand) == Table.playerHand.get(0).getValue() * 2)) {
+                if ((input.equals("p") || input.equals("P")) && Player.playingSplitHand == 0 && Table.playerHand.size() == 2 && (handValue(Table.playerHand) == Table.playerHand.get(0).getValue() * 2) && Player.playerChips >= Table.pot) {
                     System.out.println();
                     splits();
                     break;
@@ -77,7 +80,7 @@ public class Blackjack {
                     stands();
                     break;
                 }
-                if (input.equals("i") || input.equals("I")) {
+                if ((input.equals("i") || input.equals("I")) && remainingHints > 0) {
                     System.out.println();
                     hint();
                 }
@@ -88,14 +91,15 @@ public class Blackjack {
             System.out.print("\033[0;34mAccording to basic strategy you should \033[4;34m");
             if (Player.playingSplitHand == 0 && Table.playerHand.size() == 2 && (handValue(Table.playerHand) == Table.playerHand.get(0).getValue() * 2)) {
                 String hint = BasicStrategyTable.splitHand[Table.playerHand.get(0).getValue() - 2][Table.dealerHand.get(0).getValue() - 2];
-                System.out.printf("\033[0;34m%s.\n\033[4;34m", hint);
+                System.out.printf("\033[0;34m%s.\033[0m\n", hint);
             } else if (holdsA(Table.playerHand)) {
                 String hint = BasicStrategyTable.softHand[handValue(Table.playerHand) - 13][Table.dealerHand.get(0).getValue() - 2];
-                System.out.printf("\033[0;34m%s.\n\033[4;34m", hint);
+                System.out.printf("\033[0;34m%s.\033[0m\n", hint);
             } else {
                 String hint = BasicStrategyTable.hardHand[handValue(Table.playerHand) - 4][Table.dealerHand.get(0).getValue() - 2];
                 System.out.printf("\033[0;34m%s.\033[0m\n", hint);
             }
+            remainingHints -= 1;
         }
 
     }
@@ -115,7 +119,7 @@ public class Blackjack {
                 } else if (handValue(Table.dealerHand) > 21 && holdsA(Table.dealerHand)) {
                     changeValueOfA(Table.dealerHand);
                 } else if (handValue(Table.dealerHand) <= 21) {
-                    printAction(false, true, "Dealer Stands!");
+                    printAction(false, true, "Dealer stands!");
                     stood = true;
                     endRound();
                     break;
@@ -259,10 +263,14 @@ public class Blackjack {
             System.out.printf("\n\u001B[33mCHIPS %d\033[0m\n\n", Player.playerChips);
             Scanner input = new Scanner(System.in);
             int bet;
+            System.out.println("Input 0 to exit the game or...");
             while (true) {
                 System.out.print("Place a bet: ");
                 try {
                     bet = input.nextInt();
+                    if (bet == 0) {
+                        System.exit(0);
+                    }
                     if (bet <= Player.playerChips && bet > 0) {
                         break;
                     } else {
@@ -619,6 +627,7 @@ public class Blackjack {
                 Table.initializeNewDeck();
                 placeBet();
                 Dealer.dealNewHands();
+                PlayerDao.updatePlayerStats(Player.id, Player.playerChips, roundNo, Player.remainingHints);
             }
         }
 

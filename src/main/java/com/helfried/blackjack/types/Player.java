@@ -3,7 +3,7 @@ package com.helfried.blackjack.types;
 import javax.persistence.*;
 
 @Entity(name = "Player")
-@Table(name = "players")
+@Table(name = "player")
 
 public class Player {
 
@@ -21,20 +21,22 @@ public class Player {
     @Column(name = "rounds_played")
     private int roundsPlayed;
 
-    @Column(name = "right_moves")
-    private int rightMoves;
-
-    @Column(name = "wrong_moves")
-    private int wrongMoves;
+    @Column(name = "remaining_hints")
+    private int remainingHints;
 
     public Player() {
     }
 
-    public Player(int id, String playerName, int chips, int roundsPlayed) {
+    public Player(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public Player(int id, String playerName, int chips, int roundsPlayed, int remainingHints) {
         this.id = id;
         this.playerName = playerName;
         this.chips = chips;
         this.roundsPlayed = roundsPlayed;
+        this.remainingHints = remainingHints;
     }
 
     public int getId() {
@@ -69,34 +71,15 @@ public class Player {
         this.roundsPlayed = roundsPlayed;
     }
 
-    public int getRightMoves() {
-        return rightMoves;
+    public int getRemainingHints() {
+        return remainingHints;
     }
 
-    public void setRightMoves(int rightMoves) {
-        this.rightMoves = rightMoves;
+    public void setRemainingHints(int remainingHints) {
+        this.remainingHints = remainingHints;
     }
-
-    public int getWrongMoves() {
-        return wrongMoves;
-    }
-
-    public void setWrongMoves(int wrongMoves) {
-        this.wrongMoves = wrongMoves;
-    }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", playerName='" + playerName + '\'' +
-                ", chips=" + chips +
-                ", roundsPlayed=" + roundsPlayed +
-                ", rightMoves=" + rightMoves +
-                ", wrongMoves=" + wrongMoves +
-                '}';
-    }
-
 
 }
+
+
 
