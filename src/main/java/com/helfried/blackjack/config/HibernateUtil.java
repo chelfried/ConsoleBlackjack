@@ -8,9 +8,12 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 import java.util.Properties;
 
+import static java.util.logging.Level.OFF;
+
 public class HibernateUtil {
 
     public static SessionFactory getSessionFactory() {
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(OFF);
         Configuration configuration = createConfig();
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
             .applySettings(configuration.getProperties()).build();
