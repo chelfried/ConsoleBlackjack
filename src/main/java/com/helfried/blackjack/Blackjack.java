@@ -2,19 +2,21 @@ package com.helfried.blackjack;
 
 import com.helfried.blackjack.types.PlayerDao;
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 import static com.helfried.blackjack.Blackjack.Actions.placeBet;
+import static java.util.logging.Level.OFF;
 
 public class Blackjack {
 
     //TODO implement surrender functionality
 
     public static void main(String[] args) {
+
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(OFF);
 
         Menu.loadMenu();
 
