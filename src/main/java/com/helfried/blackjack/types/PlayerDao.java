@@ -1,31 +1,26 @@
 package com.helfried.blackjack.types;
 
-import com.helfried.blackjack.Blackjack;
 import com.helfried.blackjack.config.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class PlayerDao {
 
-    public static final String URL = "jdbc:mysql://localhost:3306/blackjack_players?serverTimezone=UTC";
-    public static final String USER = "root";
-    public static final String PASSWORD = "password";
-
     public static int createNewPlayer(String name) {
         Session session = null;
         Transaction transaction = null;
-        Player player = new Player(name);
+        PlayerData newPlayer = new PlayerData(name);
         Integer id = null;
         try {
             SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            id = (Integer) session.save(player);
+            id = (int) session.save(newPlayer);
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {
@@ -39,21 +34,29 @@ public class PlayerDao {
         return id;
     }
 
-    public static List<Player> listPlayers() {
-        List<Player> savedPlayers;
+    public static List<PlayerData> listPlayers() {
+        List<PlayerData> savedPlayers;
         try (Session session = getSession()) {
-            String queryPlayers = "FROM Player p";
-            Query<Player> query = session.createQuery(queryPlayers);
+            String queryPlayers = "FROM PlayerData p";
+            Query<PlayerData> query = session.createQuery(queryPlayers);
             savedPlayers = query.getResultList();
         }
         return savedPlayers;
     }
 
+    public static boolean checkForId(int id) {
+        List<PlayerData> foundId;
+        try (Session session = getSession()) {
+            String queryIds = "FROM PlayerData i WHERE i.id = :id";
+            foundId = session.createQuery(queryIds).setParameter("id", id).getResultList();
+        }
+        return !foundId.isEmpty();
+    }
 
     public static void updatePlayerStats(int id, int chips, int roundsPlayed, int remainingHints) {
         Transaction transaction = null;
         try (Session session = getSession()) {
-            Player playerToUpdate = session.find(Player.class, id);
+            PlayerData playerToUpdate = session.find(PlayerData.class, id);
             transaction = session.beginTransaction();
             playerToUpdate.setChips(chips);
             playerToUpdate.setRoundsPlayed(playerToUpdate.getRoundsPlayed() + roundsPlayed);

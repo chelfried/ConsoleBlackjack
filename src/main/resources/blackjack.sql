@@ -1,9 +1,9 @@
-CREATE DATABASE  IF NOT EXISTS `blackjack_players`;
-USE `blackjack_players`;
+CREATE DATABASE IF NOT EXISTS `blackjack_playerdata`;
+USE `blackjack_playerdata`;
 
-DROP TABLE IF EXISTS `player`;
+DROP TABLE IF EXISTS `playerdata`;
 
-CREATE TABLE `player` (
+CREATE TABLE `playerdata` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `player_name` varchar(15),
   `chips` int DEFAULT 10000,

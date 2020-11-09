@@ -2,10 +2,10 @@ package com.helfried.blackjack.types;
 
 import javax.persistence.*;
 
-@Entity(name = "Player")
-@Table(name = "player")
+@Entity(name = "PlayerData")
+@Table(name = "playerdata")
 
-public class Player {
+public class PlayerData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,35 +24,19 @@ public class Player {
     @Column(name = "remaining_hints")
     private int remainingHints;
 
-    public Player() {
+    public PlayerData() {
     }
 
-    public Player(String playerName) {
+    public PlayerData(String playerName) {
         this.playerName = playerName;
-    }
-
-    public Player(int id, String playerName, int chips, int roundsPlayed, int remainingHints) {
-        this.id = id;
-        this.playerName = playerName;
-        this.chips = chips;
-        this.roundsPlayed = roundsPlayed;
-        this.remainingHints = remainingHints;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getPlayerName() {
         return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
     }
 
     public int getChips() {
